@@ -31,13 +31,25 @@ namespace MyGoidaList.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind("Name, Episodes, Score")]Title title)
+        public ActionResult Create([Bind("Name, Episodes, Score")] Title title)
         {
             if (title.Name != null)
             {
-                db.Titles.Add(title);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                using (var transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        db.Titles.Add(title);
+                        db.SaveChanges();
+                        transaction.Commit();
+                        return RedirectToAction("Index");
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        ModelState.AddModelError("", "An error occurred while creating the title.");
+                    }
+                }
             }
 
             return View(title);
@@ -63,9 +75,21 @@ namespace MyGoidaList.Controllers
         {
             if (title.Name != null)
             {
-                db.Titles.Update(title);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                using (var transaction = db.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        db.Titles.Update(title);
+                        db.SaveChanges();
+                        transaction.Commit();
+                        return RedirectToAction("Index");
+                    }
+                    catch
+                    {
+                        transaction.Rollback();
+                        ModelState.AddModelError("", "An error occurred while editing the title.");
+                    }
+                }
             }
             return View(title);
         }
@@ -88,28 +112,41 @@ namespace MyGoidaList.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var title = db.Titles.Find(id);
-
-            if (title != null)
+            using (var transaction = db.Database.BeginTransaction())
             {
-                var userTitles = db.UserTitles.Where(ut => ut.TitleId == id).ToList();
-                var characters = db.Characters.Where(c => c.TitleId == id).ToList();
-                db.UserTitles.RemoveRange(userTitles);
-                db.Characters.RemoveRange(characters);
-
-                foreach (var user in db.Users)
+                try
                 {
-                    foreach (var usertitle in userTitles)
-                    {
-                        if (user.Id == usertitle.UserId)
-                        {
-                            user.TitlesSum--;
-                        }
-                    }
-                }
+                    var title = db.Titles.Find(id);
 
-                db.Titles.Remove(title);
-                db.SaveChanges();
+                    if (title != null)
+                    {
+                        var userTitles = db.UserTitles.Where(ut => ut.TitleId == id).ToList();
+                        var characters = db.Characters.Where(c => c.TitleId == id).ToList();
+                        db.UserTitles.RemoveRange(userTitles);
+                        db.Characters.RemoveRange(characters);
+
+                        foreach (var user in db.Users)
+                        {
+                            foreach (var usertitle in userTitles)
+                            {
+                                if (user.Id == usertitle.UserId)
+                                {
+                                    user.TitlesSum--;
+                                }
+                            }
+                        }
+
+                        db.Titles.Remove(title);
+                        db.SaveChanges();
+                    }
+
+                    transaction.Commit();
+                }
+                catch
+                {
+                    transaction.Rollback();
+                    ModelState.AddModelError("", "An error occurred while deleting the title.");
+                }
             }
 
             return RedirectToAction("Index");
