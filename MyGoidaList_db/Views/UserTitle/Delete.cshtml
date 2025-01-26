@@ -1,0 +1,31 @@
+﻿@model MyGoidaList.Models.UserTitle
+
+@{
+    ViewBag.Title = "Delete Title";
+}
+
+<h2>Delete Title</h2>
+
+<div>
+    <h4>Are you sure you want to delete this title?</h4>
+    <dl class="dl-horizontal">
+        <dt>Title</dt>
+        <dd>@Model.TitleId</dd>
+
+        <dt>Episodes</dt>
+        <dd>@Model.Episodes</dd>
+
+        <dt>Score</dt>
+        <dd>@Model.Score</dd>
+    </dl>
+</div>
+
+@using (Html.BeginForm("Delete", "UserTitle", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.UserId)
+    @Html.HiddenFor(model => model.TitleId)
+
+    <button type="submit" class="btn btn-danger">Delete</button>
+    @Html.ActionLink("Cancel", "Index", new { userId = Model.UserId }, new { @class = "btn btn-secondary" })
+}

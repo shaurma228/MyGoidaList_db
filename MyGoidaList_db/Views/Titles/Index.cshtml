@@ -1,0 +1,36 @@
+﻿@model IEnumerable<MyGoidaList.Models.Title>
+
+@{
+    ViewBag.Title = "Titles";
+}
+
+<h2>Titles</h2>
+
+<p>
+    @Html.ActionLink("Create New Title", "Create")
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Name)</th>
+            <th>@Html.DisplayNameFor(model => model.Episodes)</th>
+            <th>@Html.DisplayNameFor(model => model.Score)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var title in Model)
+        {
+            <tr>
+                <td>@title.Name</td>
+                <td>@title.Episodes</td>
+                <td>@title.Score</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = title.Id }) |
+                    @Html.ActionLink("Delete", "Delete", new { id = title.Id })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,36 @@
+﻿@model MyGoidaList.Models.EditTitleViewModel
+
+@{
+    ViewBag.Title = "Edit Title";
+}
+
+<h2>Edit Title</h2>
+
+@using (Html.BeginForm("Edit", "UserTitle", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(model => model.UserId)
+    @Html.HiddenFor(model => model.TitleId)
+
+    <div class="form-group">
+        <label for="Status">Status</label>
+        @Html.TextBoxFor(m => m.Status, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Status)
+    </div>
+
+    <div class="form-group">
+        <label for="Episodes">Episodes</label>
+        @Html.TextBoxFor(model => model.Episodes, new { @class = "form-control", type = "number", min = "1", max = Model.MaxEpisodes })
+        @Html.ValidationMessageFor(model => model.Episodes)
+    </div>
+
+    <div class="form-group">
+        <label for="Score">Score</label>
+        @Html.TextBoxFor(model => model.Score, new { @class = "form-control", type = "number", min = "0", max = "10"})
+        @Html.ValidationMessageFor(model => model.Score)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    @Html.ActionLink("Cancel", "Index", new { userId = Model.UserId }, new { @class = "btn btn-secondary" })
+}

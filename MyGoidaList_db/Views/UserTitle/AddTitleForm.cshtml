@@ -1,0 +1,37 @@
+﻿@model MyGoidaList.Models.AddTitleViewModel
+
+@{
+    ViewBag.Title = "Add Title to User";
+}
+
+<h2>Add Title to User</h2>
+
+@using (Html.BeginForm("AddTitle", "UserTitle", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    @Html.HiddenFor(m => m.UserId)
+    @Html.HiddenFor(m => m.TitleId)
+
+    <div class="form-group">
+        <label for="Status">Status</label>
+        @Html.TextBoxFor(m => m.Status, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Status)
+    </div>
+
+    <div class="form-group">
+        <label for="Episodes">Episodes</label>
+        @Html.TextBoxFor(m => m.Episodes, new { @class = "form-control", type = "number", min = "0", max = Model.MaxEpisodes })
+        @Html.ValidationMessageFor(m => m.Episodes)
+    </div>
+
+    <div class="form-group">
+        <label for="Score">Score</label>
+        @Html.TextBoxFor(m => m.Score, new { @class = "form-control", type = "number", min = "0", max = "10"})
+        @Html.ValidationMessageFor(m => m.Score)
+    </div>
+
+    <button type="submit" class="btn btn-success">Add Title</button>
+    @Html.ActionLink("Back to Titles List", "AddTitle", new { userId = Model.UserId }, new { @class = "btn btn-secondary" })
+}
+

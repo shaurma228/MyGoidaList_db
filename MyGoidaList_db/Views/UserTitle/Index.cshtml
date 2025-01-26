@@ -1,0 +1,38 @@
+﻿@model IEnumerable<MyGoidaList.Models.UserTitle>
+
+@{
+    ViewBag.Title = $"{ViewBag.UserName}'s Titles";
+}
+
+<h2>@ViewBag.UserName's Titles</h2>
+
+<p>
+    @Html.ActionLink("Add New Title", "AddTitle", new { userId = ViewBag.UserId }, new { @class = "btn btn-success" })
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title Name</th>
+            <th>Status</th>
+            <th>Episodes</th>
+            <th>Score</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var userTitle in Model)
+        {
+            <tr>
+                <td>@userTitle.Title.Name</td>
+                <td>@userTitle.Status</td>
+                <td>@userTitle.Episodes</td>
+                <td>@userTitle.Score</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { userId = userTitle.UserId, titleId = userTitle.TitleId }, new { @class = "btn btn-primary btn-sm" })
+                    @Html.ActionLink("Delete", "Delete", new { userId = userTitle.UserId, titleId = userTitle.TitleId }, new { @class = "btn btn-danger btn-sm" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

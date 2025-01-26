@@ -1,0 +1,72 @@
+﻿@model MyGoidaList.Models.Character
+
+@{
+    ViewBag.Title = "Create Character";
+}
+
+<h2>Create Character</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Name)
+        @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Name)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Description)
+        @Html.TextAreaFor(model => model.Description, new { @class = "form-control", rows = 4 })
+        @Html.ValidationMessageFor(model => model.Description)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.IsMainCharacter)
+        @Html.CheckBoxFor(model => model.IsMainCharacter)
+        @Html.ValidationMessageFor(model => model.IsMainCharacter)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.PopularityScore)
+        @Html.TextBoxFor(model => model.PopularityScore, new { @class = "form-control", type = "number", step = "0.01" })
+        @Html.ValidationMessageFor(model => model.PopularityScore)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.ScreenTime)
+        @Html.TextBoxFor(model => model.ScreenTime, new { @class = "form-control", type = "number" })
+        @Html.ValidationMessageFor(model => model.ScreenTime)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Rating)
+        @Html.TextBoxFor(model => model.Rating, new { @class = "form-control", type = "number", min = 1, max = 10 })
+        @Html.ValidationMessageFor(model => model.Rating)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.Height)
+        @Html.TextBoxFor(model => model.Height, new { @class = "form-control", type = "number", step = "0.01" })
+        @Html.ValidationMessageFor(model => model.Height)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.BirthDate)
+        @Html.TextBoxFor(model => model.BirthDate, new { @class = "form-control", type = "date" })
+        @Html.ValidationMessageFor(model => model.BirthDate)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.TitleId, "Select Title")
+        @Html.DropDownListFor(model => model.TitleId, (SelectList)ViewBag.TitleId, "Select Title", new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.TitleId)
+    </div>
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Create</button>
+    </div>
+}
+
+@Html.ValidationSummary(true)

@@ -1,0 +1,49 @@
+﻿@model IEnumerable<MyGoidaList.Models.Character>
+
+@{
+    ViewBag.Title = "Character List";
+}
+
+<h2>Character List</h2>
+
+<p>
+    @Html.ActionLink("Create New Character", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Name)</th>
+            <th>@Html.DisplayNameFor(model => model.Title.Name)</th>  <!-- Отображение тайтла -->
+            <th>@Html.DisplayNameFor(model => model.Description)</th>
+            <th>@Html.DisplayNameFor(model => model.BirthDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Height)</th>
+            <th>@Html.DisplayNameFor(model => model.Rating)</th>
+            <th>@Html.DisplayNameFor(model => model.ScreenTime)</th>
+            <th>@Html.DisplayNameFor(model => model.PopularityScore)</th>
+            <th>@Html.DisplayNameFor(model => model.IsMainCharacter)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var character in Model)
+        {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => character.Name)</td>
+            <td>@Html.DisplayFor(modelItem => character.Title.Name)</td>  <!-- Отображение тайтла -->
+            <td>@Html.DisplayFor(modelItem => character.Description)</td>
+            <td>@character.BirthDate</td>
+            <th>@character.Height</th>
+            <td>@Html.DisplayFor(modelItem => character.Rating)</td>
+            <td>@Html.DisplayFor(modelItem => character.ScreenTime)</td>
+            <td>@Html.DisplayFor(modelItem => character.PopularityScore)</td>
+            <td>@Html.DisplayFor(modelItem => character.IsMainCharacter)</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = character.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = character.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = character.Id })
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

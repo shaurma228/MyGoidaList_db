@@ -1,0 +1,23 @@
+﻿@model MyGoidaList.Models.AddTitleListViewModel
+
+@{
+    ViewBag.Title = "Add Title to User";
+}
+
+<h2>Add Titles</h2>
+
+@if (Model.Titles.Any())
+{
+    <ul>
+        @foreach (var title in Model.Titles)
+        {
+            <li>
+                @Html.ActionLink($"{title.Name}", "AddTitleForm", new { userId = Model.UserId, titleId = title.Id })
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No available titles to add.</p>
+}

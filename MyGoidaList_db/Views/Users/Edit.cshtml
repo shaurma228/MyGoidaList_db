@@ -1,0 +1,30 @@
+﻿
+@model MyGoidaList.Models.User
+
+@{
+    ViewBag.Title = "Edit User";
+}
+
+<h2>Edit User</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>User</h4>
+        <hr />
+        <div class="form-group">
+            @Html.LabelFor(model => model.Nickname, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(model => model.Nickname, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Nickname)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </div>
+        </div>
+    </div>
+}

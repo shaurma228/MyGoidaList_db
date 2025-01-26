@@ -1,0 +1,22 @@
+﻿
+@model MyGoidaList.Models.Title
+
+@{
+    ViewBag.Title = "Delete Title";
+}
+
+<h2>Delete Title</h2>
+
+<h4>Are you sure you want to delete this title?</h4>
+<div>
+    <h5>@Model.Name</h5>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div>
+        <button type="submit" class="btn btn-danger">Delete</button> |
+        @Html.ActionLink("Cancel", "Index")
+    </div>
+}
