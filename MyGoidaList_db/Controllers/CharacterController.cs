@@ -69,7 +69,7 @@ namespace MyGoidaList.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(Character character)
+        public ActionResult Edit([Bind("Id, Name, BirthDate, Description, TitleId, IsMainCharacter, Height, PopularityScore, ScreenTime, Rating")]Character character)
         {
             if (character.Name != null)
             {

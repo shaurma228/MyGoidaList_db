@@ -59,11 +59,11 @@ namespace MyGoidaList.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind("Name, Episodes, Score")] Title title)
+        public ActionResult Edit([Bind("Id, Name, Episodes, Score")] Title title)
         {
             if (title.Name != null)
             {
-                db.Entry(title).State = EntityState.Modified;
+                db.Titles.Update(title);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -96,6 +96,17 @@ namespace MyGoidaList.Controllers
                 var characters = db.Characters.Where(c => c.TitleId == id).ToList();
                 db.UserTitles.RemoveRange(userTitles);
                 db.Characters.RemoveRange(characters);
+
+                foreach (var user in db.Users)
+                {
+                    foreach (var usertitle in userTitles)
+                    {
+                        if (user.Id == usertitle.UserId)
+                        {
+                            user.TitlesSum--;
+                        }
+                    }
+                }
 
                 db.Titles.Remove(title);
                 db.SaveChanges();

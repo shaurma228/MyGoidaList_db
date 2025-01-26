@@ -11,6 +11,8 @@
 {
     @Html.AntiForgeryToken()
 
+    @Html.HiddenFor(Model => Model.TitlesSum)
+
     <div class="form-horizontal">
         <h4>User</h4>
         <hr />

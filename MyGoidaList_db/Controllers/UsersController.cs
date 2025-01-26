@@ -61,11 +61,11 @@ namespace MyGoidaList.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind("Nickname")] User user)
+        public ActionResult Edit([Bind("Id, Nickname, TitleSum")] User user)
         {
             if (user.Nickname != null)
             {
-                db.Entry(user).State = EntityState.Modified;
+                db.Users.Update(user);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
