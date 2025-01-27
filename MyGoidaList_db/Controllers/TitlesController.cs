@@ -39,8 +39,10 @@ namespace MyGoidaList.Controllers
                 {
                     try
                     {
+                        transaction.CreateSavepoint("SP_1");
                         db.Titles.Add(title);
                         db.SaveChanges();
+                        //transaction.RollbackToSavepoint("SP_1");
                         transaction.Commit();
                         return RedirectToAction("Index");
                     }
